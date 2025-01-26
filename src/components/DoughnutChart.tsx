@@ -5,7 +5,7 @@ import {
   ArcElement,
   Tooltip,
   Legend,
-  TooltipItem,
+  ChartOptions,
 } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 
@@ -73,10 +73,10 @@ export default function DoughnutChart({
     ],
   };
 
-  const chartOptions = {
+  const chartOptions: ChartOptions<"doughnut"> = {
     plugins: {
       legend: {
-        position: "bottom" as const,
+        position: "bottom",
         labels: {
           font: {
             size: 14,
@@ -87,8 +87,8 @@ export default function DoughnutChart({
       tooltip: {
         enabled: true,
         callbacks: {
-          label: function (context: TooltipItem<"doughnut">) {
-            return `${context.label}: ${context.raw}%`;
+          label: (context) => {
+            return `${context.label}: ${context.formattedValue}%`;
           },
         },
       },
