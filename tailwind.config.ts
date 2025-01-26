@@ -12,6 +12,9 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        domine: ["var(--font-domine)"],
+      },
     },
   },
   plugins: [],
