@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import DoughnutChart from "@/components/DoughnutChart";
 import { createClient } from "@/lib/supabase";
 import { toast } from "react-toastify";
-import { useRouter } from "next/router";
+import * as React from "react";
 
 type QuestionMCQ = {
   question: string;
@@ -40,8 +40,13 @@ type AssessmentQuestion = {
   exam: string;
 };
 
-export default function Exam() {
-  const router = useRouter();
+export default function Exam({
+  params,
+}: {
+  params: Promise<{ examId: string }>;
+}) {
+  const resolvedParams = React.use(params);
+  const examId = resolvedParams.examId;
 
   const [showResult, setShowResult] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -56,7 +61,7 @@ export default function Exam() {
       const { data, error } = await supabase.functions.invoke("remarks", {
         body: {
           data: questions,
-          examId: router.query.examId,
+          examId: examId,
         },
       });
 
@@ -79,7 +84,7 @@ export default function Exam() {
       const { data, error } = await supabase
         .from("assessment_questions")
         .select("*")
-        .eq("exam", router.query.examId);
+        .eq("exam", examId);
 
       if (error) {
         console.error("Error fetching questions:", error);
